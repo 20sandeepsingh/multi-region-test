@@ -1,0 +1,25 @@
+{
+  "name": "multi-region-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "ejs": "latest",
+    "aws-sdk": "latest",
+    "express": "latest",
+    "body-parser": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/20sandeepsingh/multi-region-test.git"
+  },
+  "author": "sandeep",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/20sandeepsingh/multi-region-test/issues"
+  },
+  "homepage": "https://github.com/20sandeepsingh/multi-region-test#readme"
+}
