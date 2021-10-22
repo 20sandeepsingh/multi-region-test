@@ -32,11 +32,12 @@ if (cluster.isMaster) {
     var sns = new AWS.SNS();
     var ddb = new AWS.DynamoDB();
 
-    var ddbTable =  process.env.STARTUP_SIGNUP_TABLE;
+    var ddbTable =  'user_signup';//process.env.STARTUP_SIGNUP_TABLE;
     var snsTopic =  process.env.NEW_SIGNUP_TOPIC;
     var app = express();
 
     app.set('view engine', 'ejs');
+	app.use(express.static('static'));
     app.set('views', __dirname + '/views');
     app.use(bodyParser.urlencoded({extended:false}));
 
@@ -45,35 +46,6 @@ if (cluster.isMaster) {
             static_path: 'static',
             theme: process.env.THEME || 'flatly',
             flask_debug: process.env.FLASK_DEBUG || 'false'
-        });
-    });
-
-    app.post('/signup', function(req, res) {
-        var item = {
-            '_id': {'S': new Date().getTime().toString()},
-            'email': {'S': req.body.email},
-            'name': {'S': req.body.name},
-            'preview': {'S': req.body.previewAccess},
-            'theme': {'S': req.body.theme}
-        };
-
-        ddb.putItem({
-            'TableName': ddbTable,
-            'Item': item,
-            'Expected': { email: { Exists: false } }        
-        }, function(err, data) {
-            if (err) {
-                var returnStatus = 500;
-
-                if (err.code === 'ConditionalCheckFailedException') {
-                    returnStatus = 409;
-                }
-
-                res.status(returnStatus).end();
-                console.log('DDB Error: ' + err);
-            } else {
-				res.status(200).end();
-            }
         });
     });
 
